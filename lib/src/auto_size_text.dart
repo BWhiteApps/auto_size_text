@@ -22,6 +22,7 @@ class AutoSizeText extends StatefulWidget {
     this.stepGranularity = 1,
     this.presetFontSizes,
     this.group,
+    this.groupScaleFactor,
     this.textAlign,
     this.textDirection,
     this.locale,
@@ -47,6 +48,7 @@ class AutoSizeText extends StatefulWidget {
     this.stepGranularity = 1,
     this.presetFontSizes,
     this.group,
+    this.groupScaleFactor,
     this.textAlign,
     this.textDirection,
     this.locale,
@@ -129,6 +131,9 @@ class AutoSizeText extends StatefulWidget {
   /// of them the same [AutoSizeGroup] instance. All of them will have the
   /// size of the smallest [AutoSizeText]
   final AutoSizeGroup? group;
+  
+  /// Changes the size of this widget compared to the group by a factor
+  final double? groupScaleFactor;
 
   /// How the text should be aligned horizontally.
   final TextAlign? textAlign;
@@ -261,8 +266,8 @@ class _AutoSizeTextState extends State<AutoSizeText> {
       Widget text;
 
       if (widget.group != null) {
-        widget.group!._updateFontSize(this, fontSize);
-        text = _buildText(widget.group!._fontSize, style, maxLines);
+        widget.group!._updateFontSize(this, fontSize / widget.groupScaleFactor);
+        text = _buildText(widget.group!._fontSize * widget.groupScaleFactor, style, maxLines);
       } else {
         text = _buildText(fontSize, style, maxLines);
       }
